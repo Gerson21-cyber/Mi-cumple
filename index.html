@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cumpleaños Trap Night</title>
+
+<style>
+/* ===== PALETA ANUEL / TRAP ===== */
+:root{
+  --negro:#050505;
+  --negro-profundo:#0b0b0b;
+  --oro:#c9a227;
+  --oro-brillante:#f5d76e;
+  --verde-money:#00ff9c;
+  --blanco:#f2f2f2;
+}
+
+/* ===== BODY ===== */
+body{
+  height:100vh;
+  margin:0;
+  font-family:"Segoe UI", Arial, sans-serif;
+
+  background:
+    radial-gradient(circle at top,
+      rgba(201,162,39,0.15),
+      transparent 60%),
+    linear-gradient(
+      120deg,
+      var(--negro),
+      var(--negro-profundo),
+      #121212
+    );
+
+  background-size:100% 100%, 400% 400%;
+  animation:bgMove 10s ease infinite;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ===== TARJETA ===== */
+.card{
+  background:rgba(15,15,15,0.92);
+  color:var(--blanco);
+
+  padding:44px 34px;
+  border-radius:22px;
+  max-width:420px;
+  width:90%;
+  text-align:center;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.9),
+    0 0 30px rgba(201,162,39,0.35);
+
+  z-index:2;
+  transition:.4s ease;
+}
+
+/* micro-animación al aceptar */
+.card.accepted{
+  transform:scale(1.05);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,1),
+    0 0 45px rgba(201,162,39,0.8);
+}
+
+/* ===== TÍTULO ===== */
+h1{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:4px;
+  text-transform:uppercase;
+
+  color:var(--oro);
+  text-shadow:
+    0 0 8px rgba(201,162,39,0.6),
+    0 0 18px rgba(201,162,39,0.4);
+
+  margin-bottom:10px;
+}
+
+/* ===== TEXTO ===== */
+p{
+  font-weight:600;
+  color:#dcdcdc;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+/* ===== CONTADOR ===== */
+#contador{
+  font-weight:800;
+  color:var(--oro-brillante);
+  letter-spacing:1px;
+  margin-bottom:26px;
+}
+
+/* ===== FRASES ===== */
+#frase{
+  margin-top:12px;
+  font-size:14px;
+  color:var(--verde-money);
+  min-height:18px;
+}
+
+/* ===== BOTONES ===== */
+button{
+  padding:14px 26px;
+  border:none;
+  border-radius:16px;
+  font-weight:900;
+  font-size:15px;
+  cursor:pointer;
+}
+
+/* SÍ ASISTE */
+#asistire{
+  background:linear-gradient(
+    135deg,
+    var(--oro),
+    var(--oro-brillante)
+  );
+  color:#000;
+  letter-spacing:1px;
+  box-shadow:0 0 25px rgba(201,162,39,0.7);
+}
+
+/* NO ASISTE (HUYE) */
+#noAsistire{
+  position:fixed;
+  background:#000;
+  color:var(--verde-money);
+  border:1px solid rgba(0,255,156,0.4);
+
+  top:70%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  transition:.25s ease;
+  z-index:3;
+}
+
+/* ===== EASTER EGG ===== */
+#easter{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.5s ease;
+  color:var(--oro);
+  font-size:22px;
+  font-weight:900;
+  text-align:center;
+}
+#easter.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* ===== FIRMA ===== */
+.firma{
+  position:fixed;
+  bottom:14px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:12px;
+  letter-spacing:2px;
+  color:rgba(201,162,39,0.7);
+  text-transform:uppercase;
+  font-weight:700;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TARJETA -->
+<div class="card" id="card">
+  <h1>Mi Cumpleaños 🎂</h1>
+
+  <p>
+    Noche privada, trap y flow real.<br>
+    Reggaetón hasta que amanezca.
+  </p>
+
+  <div id="contador">Cargando contador…</div>
+
+  <button id="asistire" onclick="asistir()">🔥 SÍ, VOY A TU CUMPLE</button>
+
+  <div id="frase"></div>
+</div>
+
+<!-- BOTÓN NO -->
+<button id="noAsistire">😅 Mejor otro día</button>
+
+<!-- EASTER EGG -->
+<div id="easter">
+  🕶️ Tranquilo…<br>
+  igual sabemos que vas a ir 😎
+</div>
+
+<!-- FIRMA -->
+<div class="firma">GersonDEV</div>
+
+<script>
+/* ===== CONTADOR REGRESIVO ===== */
+// CAMBIA AQUÍ LA FECHA DEL CUMPLEAÑOS
+const fechaCumple = new Date("2025-12-20T19:00:00");
+
+const contadorEl = document.getElementById("contador");
+
+setInterval(()=>{
+  const ahora = new Date();
+  const diff = fechaCumple - ahora;
+
+  if(diff <= 0){
+    contadorEl.textContent = "🔥 ES HOY – REAL HASTA LA MADRUGADA";
+    return;
+  }
+
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor((diff / (1000*60*60)) % 24);
+  const m = Math.floor((diff / (1000*60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+
+  contadorEl.textContent =
+    `⏳ Faltan ${d}d ${h}h ${m}m ${s}s`;
+},1000);
+
+/* ===== BOTÓN SÍ ===== */
+function asistir(){
+  sessionStorage.setItem("playMusic","1");
+  document.getElementById("card").classList.add("accepted");
+  setTimeout(()=>location.href="detalle.html",600);
+}
+
+/* ===== BOTÓN NO + FRASES ===== */
+const frases = [
+  "No te hagas el loco 😏",
+  "Sabes que vas a ir",
+  "Después no digas que no te avisé",
+  "Esto no se repite",
+  "El cumple es una sola vez"
+];
+
+let intentos = 0;
+const btnNo = document.getElementById("noAsistire");
+const fraseEl = document.getElementById("frase");
+
+btnNo.addEventListener("mouseenter",huir);
+btnNo.addEventListener("touchstart",e=>{
+  e.preventDefault();
+  huir();
+});
+
+function huir(){
+  const padding = 20;
+  const x = Math.random()*(innerWidth-btnNo.offsetWidth-padding);
+  const y = Math.random()*(innerHeight-btnNo.offsetHeight-padding);
+
+  btnNo.style.left = x+"px";
+  btnNo.style.top  = y+"px";
+
+  fraseEl.textContent = frases[Math.floor(Math.random()*frases.length)];
+
+  intentos++;
+  if(intentos === 5){
+    document.getElementById("easter").classList.add("show");
+  }
+}
+</script>
+
+</body>
+</html>

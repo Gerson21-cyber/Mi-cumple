@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>After Birthday</title>
+
+<style>
+/* ===== PALETA ANUEL ===== */
+:root{
+  --negro:#050505;
+  --negro-profundo:#0b0b0b;
+  --oro:#c9a227;
+  --oro-brillante:#f5d76e;
+  --verde-money:#00ff9c;
+  --blanco:#f2f2f2;
+}
+
+/* ===== BODY ===== */
+body{
+  height:100vh;
+  margin:0;
+  font-family:"Segoe UI", Arial, sans-serif;
+
+  background:
+    radial-gradient(circle at center,
+      rgba(201,162,39,0.18),
+      transparent 65%),
+    linear-gradient(
+      120deg,
+      var(--negro),
+      var(--negro-profundo),
+      #121212
+    );
+
+  background-size:100% 100%, 400% 400%;
+  animation:bg 10s ease infinite;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+@keyframes bg{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ===== TARJETA ===== */
+.card{
+  background:rgba(15,15,15,.93);
+  color:var(--blanco);
+
+  padding:46px 36px;
+  border-radius:24px;
+  max-width:420px;
+  width:90%;
+  text-align:center;
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.95),
+    0 0 35px rgba(201,162,39,.45);
+
+  animation:entrada .9s ease;
+}
+
+@keyframes entrada{
+  from{
+    opacity:0;
+    transform:scale(.85) translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+/* ===== TITULO ===== */
+h1{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:4px;
+  text-transform:uppercase;
+
+  color:var(--oro);
+  text-shadow:
+    0 0 10px rgba(201,162,39,.7),
+    0 0 20px rgba(201,162,39,.4);
+
+  margin-bottom:14px;
+}
+
+/* ===== TEXTO ===== */
+p{
+  font-weight:600;
+  color:#ddd;
+  line-height:1.6;
+  margin-bottom:22px;
+}
+
+/* ===== BACKSTAGE INFO ===== */
+.details{
+  text-align:left;
+  font-size:15px;
+  margin:26px 0;
+}
+
+.details p{
+  margin:10px 0;
+}
+
+.details strong{
+  display:inline-block;
+  width:110px;
+  color:var(--oro-brillante);
+}
+
+/* ===== FRASE FINAL ===== */
+.cierre{
+  margin-top:20px;
+  font-size:14px;
+  color:var(--verde-money);
+  font-weight:700;
+}
+
+/* ===== BOTÓN ===== */
+.volver{
+  margin-top:26px;
+  background:#000;
+  color:var(--oro-brillante);
+  border:1px solid rgba(201,162,39,.4);
+  border-radius:16px;
+  padding:12px 24px;
+  font-weight:900;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="audio" loop>
+  <source src="audio/musica.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h1>Bienvenido 🔥</h1>
+
+  <p>
+    Gracias por confirmar.<br>
+    Desde aquí, la noche ya empezó.<br>
+    <strong>Real hasta la madrugada.</strong><br><br>
+    <em>No olvides el regalito 😈🎁</em>
+  </p>
+
+  <div class="details">
+    <p><strong>🎂 Evento:</strong> Mi Cumpleaños</p>
+    <p><strong>📅 Fecha:</strong> 20 de Diciembre de 2025</p>
+    <p><strong>⏰ Hora:</strong> Desde las 10:00 p. m.</p>
+    <p><strong>📍 Lugar:</strong> Mz I 14 Lote 11 – Mi Perú</p>
+    <p><strong>👕 Dress:</strong> Como te sientas ready para perrear</p>
+    <p><strong>🔥 Música:</strong> Trap ,Reggaetón , Huayno,Reparto ,Chicha</p>
+  </div>
+
+  <p class="cierre">
+    No todos reciben esta invitación.
+  </p>
+
+  <button class="volver" onclick="location.href='index.html'">
+    🔙 Volver
+  </button>
+</div>
+
+<script>
+const audio = document.getElementById("audio");
+
+/* Música autorizada desde index.html */
+if(sessionStorage.getItem("playMusic")==="1"){
+  audio.volume = 0.35;
+  audio.play().catch(()=>{});
+}
+</script>
+
+</body>
+</html
