@@ -146,7 +146,7 @@ p{
   <source src="audio/musica.mp3" type="audio/mpeg">
 </audio>
 
-<div class="card">
+<div class="card" id="card">
   <h1>Bienvenido 🔥</h1>
 
   <p>
@@ -162,7 +162,7 @@ p{
     <p><strong>⏰ Hora:</strong> Desde las 10:00 p. m.</p>
     <p><strong>📍 Lugar:</strong> Mz I 14 Lote 11 – Mi Perú</p>
     <p><strong>👕 Dress:</strong> Como te sientas ready para perrear</p>
-    <p><strong>🔥 Música:</strong> Trap ,Reggaetón , Huayno,Reparto ,Chicha</p>
+    <p><strong>🔥 Música:</strong> Trap, Reggaetón, Huayno, Reparto, Chicha</p>
   </div>
 
   <p class="cierre">
@@ -174,15 +174,30 @@ p{
   </button>
 </div>
 
+<!-- BOTÓN INVISIBLE PARA ACTIVAR AUDIO EN MÓVIL -->
+<button id="activarAudio" style="display:none;"></button>
+
 <script>
 const audio = document.getElementById("audio");
+const activarBtn = document.getElementById("activarAudio");
 
-/* Música autorizada desde index.html */
-if(sessionStorage.getItem("playMusic")==="1"){
-  audio.volume = 0.35;
-  audio.play().catch(()=>{});
+audio.volume = 0.35;
+
+/* Si viene desde index.html */
+if (sessionStorage.getItem("playMusic") === "1") {
+  activarBtn.style.display = "block";
+
+  const activar = () => {
+    audio.play().catch(()=>{});
+    activarBtn.style.display = "none";
+    activarBtn.removeEventListener("click", activar);
+    activarBtn.removeEventListener("touchstart", activar);
+  };
+
+  activarBtn.addEventListener("click", activar);
+  activarBtn.addEventListener("touchstart", activar);
 }
 </script>
 
 </body>
-</html
+</html>
